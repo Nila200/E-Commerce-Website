@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendy Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F4F4F9;
+            color: #333;
+        }
+
+        .hero-section {
+          background: url('https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg') center/cover no-repeat;
+          height: 90vh;
+          display: flex;
+          align-items: center;
+          text-align: center;
+        }
+
+
+        .hero-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            padding: 50px;
+        }
+
+        .category-section {
+            padding: 50px 0;
+        }
+
+        .category-card {
+            transition: transform 0.3s ease;
+            background: #2C3E50;
+            border: none;
+            color: white;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 10px rgba(224, 104, 37, 0.4);
+        }
+
+        .btn-custom {
+            background-color: #E68A00;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #D47B00;
+        }
+
+        .navbar, .footer {
+            background-color: #2C3E50;
+        }
+
+        .sidebar {
+            background-color: #34495E;
+        }
+
+        .nav-link.active {
+            color: #E68A00;
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-dark navbar-expand-lg">
+            <div class="container">
+                <a href="#" class="navbar-brand">Trendy Shop</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
+                        <li class="nav-item"><a href="#collections" class="nav-link">Collections</a></li>
+                        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sidebar for Small Screens -->
+    <div class="offcanvas offcanvas-start sidebar text-white" tabindex="-1" id="sidebarMenu">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="index.html" class="nav-link text-white">Home</a></li>
+                <li class="nav-item"><a href="#collections" class="nav-link text-white">Collections</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link text-white">About</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link text-white">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex justify-content-center align-items-center">
+        <div class="hero-overlay text-center">
+            <h1 class="display-4">Level Up Your Style</h1>
+            <p class="lead">Discover the latest fashion trends for Men, Women & Kids</p>
+            <a href="#collections" class="btn btn-custom btn-lg">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="collections" class="category-section container text-center">
+        <h2 class="mb-5">Shop by Category</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card category-card">
+                    <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=400" 
+     class="card-img-top" alt="Men's Fashion">
+
+                    <div class="card-body">
+                        <h5 class="card-title">Men's Collection</h5>
+                        <a href="/views\collections.html?category=men" class="btn btn-custom">Explore</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-3">
+                <div class="card category-card">
+                    
+<img src="https://images.pexels.com/photos/974964/pexels-photo-974964.jpeg?w=600&h=400" class="card-img-top" alt="Women's Fashion">
+                    <div class="card-body">
+                        <h5 class="card-title">Women's Collection</h5>
+                        <a href="/views\collections.html?category=women" class="btn btn-custom">Explore</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-3">
+                <div class="card category-card">
+                    
+                    <img src="https://images.pexels.com/photos/1103829/pexels-photo-1103829.jpeg?auto=compress&cs=tinysrgb&w=400" 
+     class="card-img-top" alt="Kids' Fashion">
+                    <div class="card-body">
+                        <h5 class="card-title">Kids' Collection</h5>
+                        <a href="/views\collections.html?category=kids" class="btn btn-custom">Explore</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center p-3">
+        <p>&copy; 2025 Trendy Shop | All Rights Reserved</p>
+    </footer>
+</body>
+
+</html>

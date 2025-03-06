@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection - Trendy Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F4F4F9;
+            color: #333;
+        }
+
+        .collection-section {
+            padding: 40px 0;
+        }
+
+        /* Styling for Men Collection Title */
+        #category-name {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            color: #E68A00; /* Warm orange color */
+            margin-bottom: 20px; /* Reduced margin to minimize gap */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Category Image */
+        #category-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        /* Adjust the layout between title, search bar, and collection */
+        .search-bar {
+            margin-bottom: 20px; /* Reduced margin */
+            text-align: center;
+        }
+
+        /* Attractive Search Bar */
+        .search-bar input {
+            width: 60%;
+            max-width: 500px;
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #E68A00;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: #D47B00;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+
+        .product-card {
+            transition: transform 0.3s ease;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-custom {
+            background-color: #E68A00;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #D47B00;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        #loading {
+            text-align: center;
+            font-size: 20px;
+            color: #E68A00;
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-dark navbar-expand-lg">
+            <div class="container">
+                <a href="#" class="navbar-brand">Trendy Shop</a>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="collection.html?category=men" class="nav-link">Men</a></li>
+                    <li class="nav-item"><a href="collection.html?category=women" class="nav-link">Women</a></li>
+                    <li class="nav-item"><a href="collection.html?category=kids" class="nav-link">Kids</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="collection-section container">
+        <h2 class="text-center mb-5" id="category-name"></h2>
+
+        <!-- Category Image -->
+        <img id="category-image" src="" alt="Category Image">
+
+        <div id="loading">Loading...</div>
+
+        <div class="search-bar text-center">
+            <input type="text" id="search" class="form-control" placeholder="Search for products" onkeyup="filterProducts()" />
+        </div>
+
+        <div class="row" id="products">
+            <!-- Dynamic Product Cards will be injected here -->
+        </div>
+
+        <div id="no-results" style="display: none; text-align: center; color: #E68A00;">No products found</div>
+    </section>
+
+    <footer class="bg-dark text-white text-center p-3">
+        <p>&copy; 2025 Trendy Shop | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Get the category passed from the main page
+        const category = new URLSearchParams(window.location.search).get('category');
+        const categoryName = document.getElementById("category-name");
+        const categoryImage = document.getElementById("category-image");
+        const productsContainer = document.getElementById("products");
+        const loadingIndicator = document.getElementById("loading");
+        const noResultsMessage = document.getElementById("no-results");
+
+        // Example data for each category
+        const products = {
+            men: [
+                { name: "Men's Shirt", price: "$29.99", details: "Cotton, White, L Size", image: "https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg" },
+                { name: "Men's Jeans", price: "$49.99", details: "Denim, Blue, 32 Waist", image: "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg" },
+                { name: "Men's Jacket", price: "$79.99", details: "Leather, Black, M Size", image: "https://images.pexels.com/photos/1093571/pexels-photo-1093571.jpeg" },
+                { name: "Men's Shoes", price: "$99.99", details: "Leather, Brown, 10", image: "https://images.pexels.com/photos/4045293/pexels-photo-4045293.jpeg" }
+            ],
+            women: [
+                { name: "Women's Dress", price: "$59.99", details: "Silk, Red, S Size", image: "https://images.pexels.com/photos/974964/pexels-photo-974964.jpeg" },
+                { name: "Women's Blouse", price: "$19.99", details: "Cotton, White, M Size", image: "https://images.pexels.com/photos/1103829/pexels-photo-1103829.jpeg" },
+                { name: "Women's Skirt", price: "$39.99", details: "Denim, Blue, M Size", image: "https://images.pexels.com/photos/4513828/pexels-photo-4513828.jpeg" },
+                { name: "Women's Shoes", price: "$49.99", details: "Leather, Black, 7", image: "https://images.pexels.com/photos/3033938/pexels-photo-3033938.jpeg" }
+            ],
+            kids: [
+                { name: "Kids' T-shirt", price: "$14.99", details: "Cotton, Blue, 8-10 Years", image: "https://images.pexels.com/photos/1494121/pexels-photo-1494121.jpeg" },
+                { name: "Kids' Shorts", price: "$9.99", details: "Denim, Blue, 6-8 Years", image: "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg" },
+                { name: "Kids' Jacket", price: "$24.99", details: "Fleece, Green, 6-8 Years", image: "https://images.pexels.com/photos/4502671/pexels-photo-4502671.jpeg" },
+                { name: "Kids' Sneakers", price: "$29.99", details: "Rubber, Red, 8-10 Years", image: "https://images.pexels.com/photos/2433184/pexels-photo-2433184.jpeg" }
+            ]
+        };
+
+        // Display category name and products
+        if (category) {
+            categoryName.innerText = category.charAt(0).toUpperCase() + category.slice(1) + ' Collection';
+
+            // Set category image
+            const categoryImages = {
+                men: "https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg",
+                women: "https://images.pexels.com/photos/974964/pexels-photo-974964.jpeg",
+                kids: "https://images.pexels.com/photos/1494121/pexels-photo-1494121.jpeg"
+            };
+            categoryImage.src = categoryImages[category] || '';
+
+            loadingIndicator.style.display = "block"; // Show loading spinner
+
+            const filteredProducts = products[category];
+            setTimeout(() => { // Simulate delay for loading products
+                loadingIndicator.style.display = "none"; // Hide loading spinner
+
+                filteredProducts.forEach(product => {
+                    const productCard = `
+                        <div class="col-md-4">
+                            <div class="card product-card">
+                                <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.name}</h5>
+                                    <p class="card-text">${product.details}</p>
+                                    <p class="card-text"><strong>${product.price}</strong></p>
+                                    <a href="#" class="btn btn-custom">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    productsContainer.innerHTML += productCard;
+                });
+            }, 1000); // Simulating a delay of 1 second to show the loading message
+        }
+
+        // Function to filter products based on search input
+        function filterProducts() {
+            const query = document.getElementById("search").value.toLowerCase();
+            const filteredProducts = products[category].filter(product => {
+                return product.name.toLowerCase().includes(query) || product.details.toLowerCase().includes(query);
+            });
+
+            // Clear current products and display filtered products
+            productsContainer.innerHTML = '';
+            if (filteredProducts.length === 0) {
+                noResultsMessage.style.display = 'block'; // Show no results message
+            } else {
+                noResultsMessage.style.display = 'none'; // Hide no results message
+                filteredProducts.forEach(product => {
+                    const productCard = `
+                        <div class="col-md-4">
+                            <div class="card product-card">
+                                <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.name}</h5>
+                                    <p class="card-text">${product.details}</p>
+                                    <p class="card-text"><strong>${product.price}</strong></p>
+                                    <a href="#" class="btn btn-custom">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    productsContainer.innerHTML += productCard;
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
